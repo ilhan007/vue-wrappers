@@ -6,7 +6,7 @@ TypeScript wrapper utility for seamless integration of UI5 Web Components in Vue
 
 - ✅ Slot Forwarding
 - ✅ Existing Prop Autocompletion and Type-checking
-- ✅ `v-model` Binding
+- ✅ `v-model` Binding (for inputs + configurable v-model for any ui5 web component)
 
 
 ## What Doesn't Work
