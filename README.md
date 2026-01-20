@@ -2,13 +2,20 @@
 
 TypeScript wrapper utility for seamless integration of UI5 Web Components in Vue 3.
 
-## Features
+## What Does Work
 
-- ✅ **TypeScript Support** - Component-specific props with autocomplete
-- ✅ **v-model Binding** - Configurable two-way data binding
-- ✅ **slot Forwarding** - Automatic slot mapping to web components
-- ✅ **Prop Autocomplete** 
-- ✅ **Type Check** - Extract and validate UI5 component properties
+- ✅ Slot Forwarding
+- ✅ Existing Prop Autocompletion and Type-checking
+- ✅ `v-model` Binding
+
+
+## What Doesn't Work
+
+- ❌ Invalid Prop Names Not Caught
+Typos in prop names (e.g., `valueddd` instead of `value`) are not flagged as TypeScript errors in Vue templates
+- ❌ Invalid Slot Names Not Validated
+Using non-existent slot names (e.g., `#footerr` instead of `#footer`) are not flagged as TypeScript errors in Vue templates
+- ❌ Slot Autocomplete Limited
 
 ## Usage
 
@@ -29,12 +36,12 @@ const Dialog = createWrapper(Dialog_, {
 
 ```html
 <template>
-  <WrappedInput v-model="value" />
-  <WrappedDialog v-model="isOpen">
+  <Input v-model="value" />
+  <Dialog v-model="isOpen">
     <template #footer>
       <button>Close</button>
     </template>
-  </WrappedDialog>
+  </Dialog>
 </template>
 ```
 
