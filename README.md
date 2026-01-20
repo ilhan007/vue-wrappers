@@ -1,7 +1,5 @@
 # Vue 3 Wrapper for UI5 Web Components
 
-# Vue 3 Wrappers for UI5 Web Components
-
 TypeScript wrapper utility for seamless integration of UI5 Web Components in Vue 3.
 
 ## Features
