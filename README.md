@@ -1,27 +1,44 @@
-# vue-app
+# Vue 3 Wrapper for UI5 Web Components
 
-This template should help get you started developing with Vue 3 in Vite.
+# Vue 3 Wrappers for UI5 Web Components
 
-## Recommended IDE Setup
+TypeScript wrapper utility for seamless integration of UI5 Web Components in Vue 3.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
 
-## Recommended Browser Setup
+- ✅ **TypeScript Support** - Component-specific props with autocomplete
+- ✅ **v-model Binding** - Configurable two-way data binding
+- ✅ **slot Forwarding** - Automatic slot mapping to web components
+- ✅ **Prop Autocomplete** 
+- ✅ **Type Check** - Extract and validate UI5 component properties
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Usage
 
-## Type Support for `.vue` Imports in TS
+```typescript
+import createWrapper from './createWrapper';
+import Input_ from '@ui5/webcomponents/dist/Input.js';
+import Dialog_ from '@ui5/webcomponents/dist/Dialog.js';
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+// Basic wrapper
+const Input = createWrapper(Input_);
 
-## Customize configuration
+// Custom v-model config
+const Dialog = createWrapper(Dialog_, {
+  modelProp: 'open',
+  modelEvent: 'close'
+});
+```
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+```html
+<template>
+  <WrappedInput v-model="value" />
+  <WrappedDialog v-model="isOpen">
+    <template #footer>
+      <button>Close</button>
+    </template>
+  </WrappedDialog>
+</template>
+```
 
 ## Project Setup
 
