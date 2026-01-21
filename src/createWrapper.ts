@@ -1,7 +1,8 @@
-import { h } from 'vue';
+import { h, type Ref } from 'vue';
 import type UI5Element from '@ui5/webcomponents-base/dist/UI5Element.js';
 
 type isArray<T> = T extends HTMLElement[] ? true : false;
+
 type ExtractComponentProps<T> = {
   [K in keyof T as 
     K extends `_${string}` ? never : // Remove private props
@@ -10,9 +11,11 @@ type ExtractComponentProps<T> = {
     K extends keyof HTMLElement ? never : // Remove HTMLElement props
     K extends keyof UI5Element ? never : // Remove UI5Element base props
     K extends 'dangerouslySetInnerHTML' ? never : // Remove React-specific props
+    K extends 'ref' ? never : // Remove ref to avoid conflicts
     K]: T[K];
 };
-type ExtractSlotNames<T> = {
+
+type ExtractComponentSlots<T> = {
   [K in keyof T]: isArray<Exclude<T[K], undefined>> extends true ? K : never;
 }[keyof T];
 
@@ -26,15 +29,15 @@ export default function createWrapper<T extends typeof UI5Element>(Klass: T, opt
 
   type ComponentInstance = InstanceType<T>;
   type ComponentProps = ExtractComponentProps<InstanceType<T>['_jsxProps']>;
+  type ComponentSlots = ExtractComponentSlots<ComponentInstance['_jsxProps']> | 'default';
 
-  type SlotNames = ExtractSlotNames<ComponentInstance['_jsxProps']> | 'default';
   type SlotTypes = {
-    [K in SlotNames]?: () => any;
+    [K in ComponentSlots]?: () => any;
   };
 
   return function FComponent(
-    props: Omit<ComponentProps, 'ref'> & { modelValue?: any },
-    { slots, emit }: { slots?: SlotTypes; emit?: any }
+    props: ComponentProps & { modelValue?: any, ref?: Ref<HTMLElement> | string },
+    { slots, emit }: { slots?: SlotTypes; emit?: any,  }
   ) {
 
     // v-model handling
