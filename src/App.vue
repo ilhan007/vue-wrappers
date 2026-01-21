@@ -1,13 +1,17 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
+	import createWrapper from './createWrapper';
+
+	// web components
 	import Input_ from '@ui5/webcomponents/dist/Input.js';
+	import Bar_ from '@ui5/webcomponents/dist/Bar.js';
 	import Button_ from '@ui5/webcomponents/dist/Button.js';
 	import Dialog_ from '@ui5/webcomponents/dist/Dialog.js';
 
-	import createWrapper from './createWrapper';
-
+	// wrappers
 	const Input = createWrapper(Input_);
 	const Button = createWrapper(Button_);
+	const Bar = createWrapper(Bar_);
 	const Dialog = createWrapper(Dialog_, {
 		modelProp: 'open',
 		modelEvent: 'close'
@@ -36,12 +40,22 @@
 			<Input v-model="inpValue"/>
 			<Input :value="inpValue" @input="onInput" />
 
+			<Bar>
+				<template #startContent>
+					<Button design="Emphasized">Start</Button>
+				</template>
+				<template #endContent>
+					<Button design="Negative">End</Button>
+				</template>
+				<span>Bar Content</span>
+			</Bar>
+
 			<Dialog ref="dialogRef" :open="isDialogOpen1" @close="isDialogOpen1 = false">
-				<template #default>
+				<template #>
 					<p>Dialog content</p>
 				</template>
 				<template #footer>
-					<Button @click="isDialogOpen1 = false" asd="true" design="Emphasized">Close</Button>
+					<Button @click="isDialogOpen1 = false" design="Emphasized">Close</Button>
 				</template>
 			</Dialog>
 			
@@ -51,16 +65,16 @@
 
 			<!-- v-model on Dialog (v-model binds to "open" and listens for "close") -->
 			<Dialog v-model="isDialogOpen2">
-				<template #default>
+				<template #>
 					<p>Dialog content</p>
 				</template>
 				<template #footer>
-					<Button @click="isDialogOpen2 = false" design="Emphasized" >Close</Button>
+					<Button @click="isDialogOpen2 = false" design="Emphasized">Close</Button>
 				</template>
 			</Dialog>
 
 			<br></br>
-			<Button @click="isDialogOpen2 = true" design="Emphasized">Open Dialog 2</Button>
+			<Button @click="isDialogOpen2 = true" design="Negative">Open Dialog 2</Button>
 			<br><br>
 		</div>
 
