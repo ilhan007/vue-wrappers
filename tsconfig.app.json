@@ -9,7 +9,13 @@
       "@/*": ["./src/*"]
     }
   },
+  "inclide": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/global.d.ts"
+  ],
   "vueCompilerOptions": {
-    "strictTemplates": true
+    "strictTemplates": true,
   }
 }

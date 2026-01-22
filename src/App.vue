@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
-	import createWrapper from './createWrapper';
+	import createWrapper from './createWrapper.js';
 
 	// web components
 	import Avatar_ from '@ui5/webcomponents/dist/Avatar.js';
@@ -34,11 +34,7 @@
 	});
 
 	const onInput = (event: Event) => {
-		const target = event.target as HTMLInputElement;
-		// if (target.value.length <=3) {
-			inpValue.value = target.value;
-			console.log('Input accepted:', target.value);
-		// }
+		inpValue.value = (event.target as HTMLInputElement).value;
 	};
 </script>
   
@@ -55,10 +51,15 @@
 			</Bar>
 
 
-			<Input v-model="inpValue" placeholder="Start typing..." valuedd="sdsd"/> <!-- two-way binding via v-model -->
+			<br><br>
+			<ui5-input :value="inpValue" @input="onInput" placeholder="Native web component input"></ui5-input> <!-- native web component -->
+			<ui5-button design="Emphasized" @click="isDialogOpen1 = true">Native web component button</ui5-button> native web component
+			<br><br>
+
+			<Input v-model="inpValue" placeholder="Start typing..." /> <!-- two-way binding via v-model -->
 			<Input :value="inpValue" @input="onInput" placeholder="Start typing..."/> <!-- one-way binding via value + input event -->
 
-
+			<!-- One-way binding "open" prop + "close" event -->
 			<Dialog ref="dialogRef" :open="isDialogOpen1" @close="isDialogOpen1 = false" headerText="Dialog Title">
 				<MessageStrip @close="isDialogOpen1 = false">Dialog Content</MessageStrip>
 				<template #footer>
@@ -68,14 +69,16 @@
 			
 			<Button @click="isDialogOpen1 = true" design="Emphasized">Open Dialog 1</Button>
 
-			<!-- v-model on Dialog (v-model binds to "open" and listens for "close") -->
+
+			<!-- Two-way binding via v-model on Dialog (v-model binds to "open" and listens for "close") -->
 			<DialogWithVModel v-model="isDialogOpen2" headerText="Dialog Title">
 				<MessageStrip @close="isDialogOpen2 = false">Dialog Content</MessageStrip>
 				<template #footer>
 					<Title>Dialog footer</Title>
 				</template>
 			</DialogWithVModel>
-			<Button @click="isDialogOpen2 = true" design="Negative" asd="asd">Open Dialog 2</Button>
+
+			<Button @click="isDialogOpen2 = true" design="Negative">Open Dialog 2</Button>
 
 			<pre>Model : { value: {{ inpValue || `""`}}; isDialogOpen1: {{ isDialogOpen1 }};  isDialogOpen2: {{ isDialogOpen2 }};}</pre>
 		</div>
